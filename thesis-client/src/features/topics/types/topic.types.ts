@@ -23,6 +23,7 @@ export interface CreateTopicDto {
   major: string;
   skills?: string[];
   maxStudents: number;
+  status?: TopicStatus;
 }
 
 export interface TopicFilters {

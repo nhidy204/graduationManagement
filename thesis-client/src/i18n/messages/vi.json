@@ -67,7 +67,8 @@
     "admin": "Quản trị",
     "users": "Người dùng",
     "assignReviewer": "Phân công phản biện",
-    "timeline": "Timeline"
+    "timeline": "Timeline",
+    "adminGrading": "Duyệt điểm"
   },
   "topics": {
     "title": "Danh sách Đề tài",

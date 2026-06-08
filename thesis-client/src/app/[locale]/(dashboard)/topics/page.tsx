@@ -31,7 +31,6 @@ export default function TopicsPage() {
 
   const topics: Topic[] = topicsData?.data ?? [];
   const total: number   = topicsData?.total ?? 0;
-  console.log('topicsData:', JSON.stringify(topicsData));
 
   return (
     <PageWrapper

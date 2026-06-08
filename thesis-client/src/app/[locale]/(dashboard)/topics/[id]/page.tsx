@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import {
   ArrowLeft, Users, BookOpen, Tag,
-  Mail, Calendar, CheckCircle2, Clock, XCircle
+  Mail, CheckCircle2, Clock, XCircle
 } from 'lucide-react';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { Badge } from '@/components/ui/Badge';
@@ -210,15 +210,6 @@ export default function TopicDetailPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* Timeline hint */}
-          <div className="rounded-xl border border-orange-100 bg-orange-50 p-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-orange-500" />
-              <p className="text-xs font-medium text-orange-700">Deadline đăng ký</p>
-            </div>
-            <p className="mt-1 text-sm font-bold text-orange-800">30/05/2026</p>
-            <p className="text-xs text-orange-500">Còn 22 ngày</p>
-          </div>
         </div>
       </div>
 

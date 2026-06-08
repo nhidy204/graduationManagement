@@ -38,5 +38,14 @@ export const gradingApi = {
       studentId, topicId, reviewerId
     });
     return data.data;
-  }
+  },
+  getAllSubmitted: async () => {
+  const { data } = await api.get('/grading/all');
+  return data.data;
+  },
+
+  publishGrade: async (gradeId: string) => {
+  const { data } = await api.patch(`/grading/${gradeId}/publish`);
+  return data.data;
+  },
 };

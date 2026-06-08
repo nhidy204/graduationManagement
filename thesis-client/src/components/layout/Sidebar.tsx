@@ -28,6 +28,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'results',        href: '/results',                   icon: BarChart2,       roles: ['STUDENT'] },
   { key: 'users',          href: '/admin/users',               icon: Users,           roles: ['ADMIN'] },
   { key: 'assignReviewer', href: '/admin/assign-reviewer',     icon: UserCheck,       roles: ['ADMIN'] },
+  { key: 'adminGrading',   href: '/admin/grading',             icon: Star,            roles: ['ADMIN'] }, 
   { key: 'timeline',       href: '/admin/timeline',            icon: Calendar,        roles: ['ADMIN'] },
 ];
 

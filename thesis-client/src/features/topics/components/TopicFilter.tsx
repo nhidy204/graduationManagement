@@ -1,8 +1,9 @@
 'use client';
 
 import { Search, X } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
-import { MAJORS, SUPERVISORS } from '../mock/topics.mock';
+import { topicsApi } from '../api/topicsApi';
 import type { TopicFilters } from '../types/topic.types';
 
 const STATUSES = [
@@ -20,15 +21,34 @@ export function TopicFilter({ filters, onChange }: TopicFilterProps) {
   const set = (key: keyof TopicFilters, value: string) =>
     onChange({ ...filters, [key]: value });
 
-  const hasActiveFilter =
-    filters.major || filters.status || filters.supervisorId;
+  const hasActiveFilter = filters.major || filters.status || filters.supervisorId;
 
   const reset = () =>
     onChange({ search: filters.search, major: '', status: '', supervisorId: '' });
 
+  // Lấy danh sách topics để extract majors và supervisors thật
+  const { data: topicsData } = useQuery({
+    queryKey: ['topics-filter-meta'],
+    queryFn: () => topicsApi.getAll({ limit: 100 }),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const topics = topicsData?.data ?? [];
+
+  // Extract unique majors từ data thật
+  const majors = [...new Set(topics.map((t) => t.major).filter(Boolean))];
+
+  // Extract unique supervisors từ data thật
+  const supervisorMap = new Map<string, string>();
+  topics.forEach((t) => {
+    if (t.supervisor?._id && t.supervisor?.name) {
+      supervisorMap.set(t.supervisor._id, t.supervisor.name);
+    }
+  });
+  const supervisors = Array.from(supervisorMap.entries()).map(([_id, name]) => ({ _id, name }));
+
   return (
     <aside className="flex w-full flex-col gap-5 lg:w-56 shrink-0">
-      {/* Search — mobile only (desktop search is in FilterBar) */}
       <div className="relative lg:hidden">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
         <input
@@ -54,9 +74,8 @@ export function TopicFilter({ filters, onChange }: TopicFilterProps) {
         </div>
 
         <div className="mt-4 flex flex-col gap-5">
-          {/* Major */}
           <FilterSection title="Ngành">
-            {MAJORS.map((m) => (
+            {majors.map((m) => (
               <FilterChip
                 key={m}
                 label={m}
@@ -66,7 +85,6 @@ export function TopicFilter({ filters, onChange }: TopicFilterProps) {
             ))}
           </FilterSection>
 
-          {/* Status */}
           <FilterSection title="Trạng thái">
             {STATUSES.map((s) => (
               <FilterChip
@@ -78,9 +96,8 @@ export function TopicFilter({ filters, onChange }: TopicFilterProps) {
             ))}
           </FilterSection>
 
-          {/* Supervisor */}
           <FilterSection title="Giảng viên">
-            {SUPERVISORS.map((sv) => (
+            {supervisors.map((sv) => (
               <FilterChip
                 key={sv._id}
                 label={sv.name}
